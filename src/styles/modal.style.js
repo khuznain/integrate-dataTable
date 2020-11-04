@@ -59,31 +59,11 @@ export const ModalFooter = styled.div`
 `;
 
 export const ModalContainer = styled.div`
-  /* .author-container {
+  .rodal {
     .rodal-dialog {
-      width: 700px !important;
-
-      @media (max-width: 800px) {
-        width: 530px !important;
-      }
-
-      @media (max-width: 600px) {
-        width: 350px !important;
-      }
-
       @media (max-width: 400px) {
         width: 300px !important;
       }
     }
   }
-
-  .rodal {
-    .rodal-dialog {
-      padding: 0;
-
-      @media (max-width: 400px) {
-        width: 300px !important;
-      }
-    }
-  } */
 `;

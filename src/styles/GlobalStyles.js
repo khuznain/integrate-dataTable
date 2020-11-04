@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: #eee;
+    background: #fff;
     font-family: Arial, Helvetica, sans-serif;
   }
 

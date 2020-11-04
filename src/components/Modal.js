@@ -22,47 +22,58 @@ const Modal = ({
   modalType,
   updateRecordId,
   ingredientsInventories,
+  updateList,
 }) => {
+  const [loader, setLoader] = useState(false);
   const [currentInventory, setCurrentInventory] = useState("");
   const [lastOrderDate, setLastOrderDate] = useState("");
 
   const updateInputFields = () => {
-    if (currentInventory)
+    if (currentInventory) {
+      const updatedValue =
+        modalType === "add"
+          ? increaseCurrentInventory(
+              currentInventory,
+              updateRecordId,
+              ingredientsInventories
+            )
+          : subtractCurrentInventory(
+              currentInventory,
+              updateRecordId,
+              ingredientsInventories
+            );
+
+      setLoader(true);
       base("Ingredients Inventory").update(
         [
           {
             id: updateRecordId,
             fields: {
-              "Current Inventory":
-                modalType === "add"
-                  ? increaseCurrentInventory(
-                      currentInventory,
-                      updateRecordId,
-                      ingredientsInventories
-                    )
-                  : subtractCurrentInventory(
-                      currentInventory,
-                      updateRecordId,
-                      ingredientsInventories
-                    ),
+              "Current Inventory": updatedValue,
             },
           },
         ],
         function (err, records) {
           if (err) {
             console.error("this is error", err);
+            setLoader(false);
             setModal();
             setCurrentInventory("");
+
             return;
           }
+          setLoader(false);
           setCurrentInventory("");
+          updateList(updatedValue);
           setModal();
         }
       );
+    }
   };
 
   const updateReorder = () => {
-    if (lastOrderDate)
+    if (lastOrderDate) {
+      setLoader(true);
       base("Ingredients Inventory").update(
         [
           {
@@ -76,13 +87,16 @@ const Modal = ({
           if (err) {
             console.error("this is error", err);
             setModal();
+            setLoader(false);
             setLastOrderDate("");
             return;
           }
+          setLoader(false);
           setLastOrderDate("");
           setModal();
         }
       );
+    }
   };
 
   const onSubmit = () => {
@@ -131,7 +145,7 @@ const Modal = ({
             Cancel
           </button>
           <button type="button" className="button" onClick={() => onSubmit()}>
-            Submit
+            {loader ? "Loading..." : "Submit"}
           </button>
         </ModalFooter>
       </Rodal>
